@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lottery.infrastructure.persistent.dao.ITaskDao">
+    <resultMap id="dataMap" type="com.lottery.infrastructure.persistent.po.Task">
+        <id column="id" property="id"/>
+        <result column="queue" property="queue"/>
+        <result column="message_id" property="messageId"/>
+        <result column="message" property="message"/>
+        <result column="state" property="state"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!--void insert(Task task);-->
+    <insert id="insert" >
+        insert into task(queue, message_id, message, state)
+        VALUES (#{queue},#{messageId},#{message},#{state})
+    </insert>
+
+    <update id="updateTaskSendMessageCompleted">
+        update task
+        set state = 'completed', update_time = now()
+        where message_id = #{messageId}
+    </update>
+
+    <update id="updateTaskSendMessageFail" >
+        update task
+        set state = 'fail', update_time = now()
+        where message_id = #{messageId}
+    </update>
+
+    <!--List<Task> queryNoSendMessageTaskList(LocalDateTime deadline);-->
+    <select id="queryNoSendMessageTaskList" resultMap="dataMap">
+        select *
+        from task
+        where state = 'fail' or (state = 'create' and update_time &lt; #{deadline})
+        limit 10
+    </select>
+
+
+</mapper>

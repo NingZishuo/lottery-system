@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lottery.infrastructure.persistent.dao.IStrategyWhiteListDao">
+
+    <resultMap id="dataMap" type="com.lottery.infrastructure.persistent.po.StrategyWhiteList">
+        <id column="id" property="id"/>
+        <result column="strategy_id" property="strategyId"/>
+        <result column="rule_weight" property="ruleWeight"/>
+        <result column="user_id" property="userId"/>
+    </resultMap>
+
+    <!--StrategyWhiteList queryStrategyWhiteList(StrategyWhiteList strategyWhiteList);-->
+    <select id="queryStrategyWhiteList" resultMap="dataMap">
+        select * from strategy_white_list
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="strategyId!=null">
+                and strategy_id = #{strategyId}
+            </if>
+            <if test="ruleWeight!=null">
+                and rule_weight = #{ruleWeight}
+            </if>
+            <if test="userId !=null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

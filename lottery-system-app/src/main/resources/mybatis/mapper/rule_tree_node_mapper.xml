@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lottery.infrastructure.persistent.dao.IRuleTreeNodeDao">
+
+    <resultMap id="dataMap" type="com.lottery.infrastructure.persistent.po.RuleTreeNode">
+        <id column="id" property="id"/>
+        <result column="tree_id" property="treeId"/>
+        <result column="rule_model" property="ruleModel"/>
+        <result column="rule_desc" property="ruleDesc"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="queryRuleTreeNodeListByTreeId" parameterType="java.lang.String" resultMap="dataMap">
+        select *
+        from rule_tree_node
+        where tree_id = #{treeId}
+    </select>
+
+    <select id="queryRuleTreeNodeList" resultMap="dataMap">
+        select * from rule_tree_node
+        <where>
+            <if test="treeId != null and treeId != ''">
+                 tree_id = #{treeId}
+            </if>
+            <if test="ruleModel != null and ruleModel != ''">
+                and rule_model = #{ruleModel}
+            </if>
+            <if test="ruleDesc != null and ruleDesc != ''">
+                and rule_desc = #{ruleDesc}
+            </if>
+        </where>
+
+
+    </select>
+
+</mapper>

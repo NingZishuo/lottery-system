@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lottery.infrastructure.persistent.dao.IStrategyRuleDao">
+
+    <resultMap id="dataMap" type="com.lottery.infrastructure.persistent.po.StrategyRule">
+        <id column="id" property="id"/>
+        <result column="strategy_id" property="strategyId"/>
+        <result column="award_id" property="awardId"/>
+        <result column="rule_type" property="ruleType"/>
+        <result column="rule_model" property="ruleModel"/>
+        <result column="rule_value" property="ruleValue"/>
+        <result column="rule_desc" property="ruleDesc"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+
+    <select id="queryStrategyRuleList" resultMap="dataMap">
+        select *
+        from strategy_rule
+    </select>
+
+    <!--综合条件查询-->
+    <!--StrategyRule queryStrategyRule(StrategyRule strategyRule);-->
+    <select id="queryStrategyRule" resultType="StrategyRule">
+        select * from strategy_rule
+        <where>
+            <if test="strategyId != null">
+                strategy_id = #{strategyId}
+            </if>
+            <if test="awardId!=null">
+                and award_id = #{awardId}
+            </if>
+            <if test="ruleType!=null">
+                and rule_type = #{ruleType}
+            </if>
+            <if test="ruleModel !=null and ruleModel!=''">
+                and rule_model = #{ruleModel}
+            </if>
+        </where>
+    </select>
+
+   <!-- List<StrategyRule> queryRuleLocks(List<Long> awardIdList);-->
+    <select id="queryRuleLocks" resultMap="dataMap">
+        select * from strategy_rule
+        where strategy_id = #{strategyId} and rule_model = 'rule_lock'
+        and award_id in
+        <foreach collection="awardIdList" item="awardId" separator="," open="(" close=")">
+            #{awardId}
+        </foreach>
+
+    </select>
+
+</mapper>

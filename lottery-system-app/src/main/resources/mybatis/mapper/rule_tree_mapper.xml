@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lottery.infrastructure.persistent.dao.IRuleTreeDao">
+
+    <resultMap id="dataMap" type="com.lottery.infrastructure.persistent.po.RuleTree">
+        <id column="id" property="id"/>
+        <result column="strategy_id" property="strategyId"/>
+        <result column="tree_id" property="treeId"/>
+        <result column="tree_name" property="treeName"/>
+        <result column="tree_desc" property="treeDesc"/>
+        <result column="tree_root_rule_node" property="treeRootRuleNode"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="queryRuleTreeByTreeId" parameterType="java.lang.String" resultMap="dataMap">
+        select *
+        from rule_tree
+        where tree_id = #{treeId}
+    </select>
+
+    <select id="queryRuleTree" resultMap="dataMap">
+        select * from rule_tree
+        <where>
+            <if test="strategyId != null">
+                strategy_id = #{strategyId}
+            </if>
+            <if test="treeId != null and treeId != ''">
+                and tree_id = #{treeId}
+            </if>
+            <if test="treeName != null and treeName != ''">
+                and tree_name = #{treeName}
+            </if>
+            <if test="treeDesc != null and treeDesc != ''">
+                and tree_desc = #{treeDesc}
+            </if>
+            <if test="treeRootRuleNode != null and treeRootRuleNode != ''">
+                and tree_root_rule_node = #{treeRootRuleNode}
+            </if>
+        </where>
+
+    </select>
+
+
+</mapper>

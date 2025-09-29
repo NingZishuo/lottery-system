@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lottery.infrastructure.persistent.dao.IStrategyAwardDao">
+
+    <resultMap id="dataMap" type="com.lottery.infrastructure.persistent.po.StrategyAward">
+        <id column="id" property="id"/>
+        <result column="strategy_id" property="strategyId"/>
+        <result column="award_id" property="awardId"/>
+        <result column="award_title" property="awardTitle"/>
+        <result column="award_subtitle" property="awardSubtitle"/>
+        <result column="award_count" property="awardCount"/>
+        <result column="award_count_surplus" property="awardCountSurplus"/>
+        <result column="award_rate" property="awardRate"/>
+        <result column="sort" property="sort"/>
+        <result column="rule_models" property="ruleModels"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+
+    <select id="queryStrategyAwardList" resultMap="dataMap">
+        select *
+        from strategy_award
+    </select>
+
+    <!--List<StrategyAward> queryStrategyAwardListByStrategyId(Long strategyId);-->
+    <select id="queryStrategyAwardListByStrategyId" resultMap="dataMap">
+        select *
+        from strategy_award
+        where strategy_id = #{strategyId}
+    </select>
+
+    <!--StrategyAward queryStrategyAward(StrategyAward strategyAward);-->
+    <select id="queryStrategyAward" resultType="com.lottery.infrastructure.persistent.po.StrategyAward">
+        select * from strategy_award
+        <where>
+            <if test="strategyId !=null">
+                strategy_id = #{strategyId}
+            </if>
+            <if test="awardId != null">
+                and award_id = #{awardId}
+            </if>
+        </where>
+    </select>
+
+
+    <update id="updateStrategyAwardStock">
+        update strategy_award
+        set award_count_surplus = award_count_surplus-1,update_time = now()
+        <where>
+            <if test="strategyId != null">
+                strategy_id = #{strategyId}
+            </if>
+            <if test="awardId != null">
+                and award_id = #{awardId}
+            </if>
+        </where>
+        and award_count_surplus > 0
+    </update>
+
+    <select id="queryStrategyAwardEntityByAwardIds" resultMap="dataMap">
+           select * from strategy_award
+           where strategy_id = #{strategyId} and award_id in
+        <foreach collection="awardIds" item="awardId" separator="," open="(" close=")">
+            #{awardId}
+        </foreach>
+    </select>
+
+</mapper>

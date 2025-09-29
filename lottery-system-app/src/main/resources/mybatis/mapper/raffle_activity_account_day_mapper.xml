@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lottery.infrastructure.persistent.dao.IRaffleActivityAccountDayDao">
+
+    <resultMap id="dataMap" type="com.lottery.infrastructure.persistent.po.RaffleActivityAccountDay">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="activity_id" property="activityId"/>
+        <result column="day" property="day"/>
+        <result column="day_count" property="dayCount"/>
+        <result column="day_count_surplus" property="dayCountSurplus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <select id="queryRaffleActivityAccountDay" resultMap="dataMap">
+        SELECT *
+        FROM raffle_activity_account_day
+        <where>
+            <if test="userId != null">
+                user_id = #{userId}
+            </if>
+            <if test="activityId != null">
+                and activity_id = #{activityId}
+            </if>
+            <if test="day != null">
+                and day = #{day}
+            </if>
+        </where>
+    </select>
+
+    <!--    void insert(RaffleActivityAccountDay raffleActivityAccountDay);-->
+    <insert id="insert">
+        insert into raffle_activity_account_day(user_id, activity_id, day, day_count, day_count_surplus)
+        values (#{userId}, #{activityId}, #{day}, #{dayCount}, #{dayCountSurplus})
+    </insert>
+
+
+    <update id="updateActivityAccountDaySubtractionQuota">
+        update raffle_activity_account_day
+        set day_count_surplus = day_count_surplus - 1,
+            update_time       = now()
+        where user_id = #{userId}
+          and activity_id = #{activityId}
+          and day = #{day}
+          and day_count_surplus >= 1
+    </update>
+
+    <update id="updateActivityAccountDaySpecifiedSubtractionQuota">
+        update raffle_activity_account_day
+        set day_count_surplus = day_count_surplus - #{subtractor},
+            update_time       = now()
+        where user_id = #{raffleActivityAccountDay.userId}
+          and activity_id = #{raffleActivityAccountDay.activityId}
+          and day = #{raffleActivityAccountDay.day}
+          and day_count_surplus >= #{subtractor}
+    </update>
+
+    <insert id="addAccountDayQuota">
+        update raffle_activity_account_day
+        set day_count         = day_count + #{dayCount},
+            day_count_surplus = day_count_surplus + #{dayCountSurplus},
+            update_time       = now()
+        where user_id = #{userId}
+          and activity_id = #{activityId}
+          and day = #{day}
+
+    </insert>
+
+
+</mapper>

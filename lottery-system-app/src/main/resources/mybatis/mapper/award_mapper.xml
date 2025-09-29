@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lottery.infrastructure.persistent.dao.IAwardDao">
+
+    <resultMap id="dataMap" type="com.lottery.infrastructure.persistent.po.Award">
+        <id column="id" property="id"/>
+        <result column="award_id" property="awardId"/>
+        <result column="award_key" property="awardKey"/>
+        <result column="award_config" property="awardConfig"/>
+        <result column="award_desc" property="awardDesc"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+
+    <select id="queryAwardList" resultMap="dataMap">
+        select *
+        from award
+    </select>
+
+    <!--Award queryAward(Award award);-->
+    <select id="queryAward" resultMap="dataMap">
+        select * from award
+        <where>
+            <if test="awardId!=null">
+                award_id = #{awardId}
+            </if>
+            <if test="awardKey !=null and awardKey !=''">
+                and award_key = #{awardKey}
+            </if>
+            <if test="awardConfig !=null and awardConfig !='' ">
+                and award_config = #{awardConfig}
+            </if>
+            <if test="awardDesc !=null and awardDesc !=''">
+                and award_desc = #{awardDesc}
+            </if>
+        </where>
+    </select>
+
+</mapper>

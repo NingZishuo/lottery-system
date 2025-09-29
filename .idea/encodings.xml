@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/lottery-system-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lottery-system-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lottery-system-app/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lottery-system-app/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lottery-system-domain/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lottery-system-domain/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lottery-system-infrastructure/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lottery-system-infrastructure/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lottery-system-trigger/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lottery-system-trigger/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lottery-system-types/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lottery-system-types/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+  </component>
+</project>
