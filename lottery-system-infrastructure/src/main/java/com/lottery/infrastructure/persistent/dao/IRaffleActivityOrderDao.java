@@ -2,6 +2,7 @@ package com.lottery.infrastructure.persistent.dao;
 
 import com.lottery.infrastructure.persistent.po.RaffleActivityOrder;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -40,6 +41,6 @@ public interface IRaffleActivityOrderDao {
      * @param outBusinessNo
      * @return
      */
-    BigDecimal queryActivityOrderPayAmount(String userId,String outBusinessNo);
+    BigDecimal queryActivityOrderPayAmount(@Param("userId") String userId, @Param("outBusinessNo") String outBusinessNo);
 
 }
